@@ -14,7 +14,6 @@ class TestCreateOrder:
                 'name': create_user_name_random()
                 }
         requests.post(Data.Url_login_user, data=user)
-        requests.get(Data.Url_login_user, data=user)
         response = requests.post(Data.Url_create_order, data=BurgerIngredients.burger_existing)
         assert response.status_code == 200
 

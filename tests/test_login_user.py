@@ -13,7 +13,6 @@ class TestLoginUser:
                    'password': DataMy.password,
                    'name': DataMy.name
                    }
-        requests.get(Data.Url_login_user, data=payload)
         response = requests.get(Data.Url_login_user, data=payload)
         assert response.status_code == 200
 

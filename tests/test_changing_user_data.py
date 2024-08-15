@@ -19,8 +19,9 @@ class TestChangingUserData:
         requests.post(Data.Url_create_user, data=user_1)
         user_data = requests.post(Data.Url_login_user, data=user_1)
         token = user_data.json()['accessToken']
-        response = requests.get(Data.Url_changing_user_data, headers={'Authorization': token}, data=user_2)
-        assert response.status_code == 200
+        response = requests.patch(Data.Url_changing_user_data, headers={'Authorization': token}, data=user_2)
+        assert response.status_code == 200 and user_data.json()['user']['email'] != response.json()['user']['email'] \
+        and user_data.json()['user']['name'] != response.json()['user']['name']
 
     @allure.title('Проверка изменения данных пользователя без авторизации')
     @allure.description('Попытка изменить данные пользователя без авторизации, ожидаем получение ошибки')
@@ -34,5 +35,5 @@ class TestChangingUserData:
                   'name': create_user_name_random()
                   }
         requests.post(Data.Url_create_user, data=user_1)
-        response = requests.get(Data.Url_changing_user_data, data=user_2)
-        assert response.status_code == 401
+        response = requests.patch(Data.Url_changing_user_data, data=user_2)
+        assert response.status_code == 401 and response.json()['message'] == "You should be authorised"
