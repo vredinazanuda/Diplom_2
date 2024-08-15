@@ -1,10 +1,11 @@
 class Data:
-    Url_main_page = 'https://stellarburgers.nomoreparties.site/'
-    Url_create_user = 'https://stellarburgers.nomoreparties.site/api/auth/register'
-    Url_login_user = 'https://stellarburgers.nomoreparties.site/api/auth/login'
-    Url_changing_user_data = 'https://stellarburgers.nomoreparties.site/api/auth/user'
-    Url_create_order = 'https://stellarburgers.nomoreparties.site/api/orders'
-    Url_orders_from_user = 'https://stellarburgers.nomoreparties.site/api/orders'
+    base_Url = "stellarburgers.nomoreparties.site"
+    Url_main_page = f'https://{base_Url}/'
+    Url_create_user = f'https://{base_Url}/api/auth/register'
+    Url_login_user = f'https://{base_Url}/api/auth/login'
+    Url_changing_user_data = f'https://{base_Url}/api/auth/user'
+    Url_create_order = f'https://{base_Url}/api/orders'
+    Url_orders_from_user = f'https://{base_Url}/api/orders'
 
 
 class DataMy:
