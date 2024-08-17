@@ -8,7 +8,7 @@ class TestGetListOrder:
     @allure.title('Проверка получения списка заказов c авторизованным конкретным пользователем')
     @allure.description(
         'Проверяем получение списка заказов, получаем статус 200 и проверяем, что список не пустой')
-    def test_get_list_order(self):
+    def test_get_list_order_200(self):
         user = {
             'email': create_email_user_random(),
             'password': create_user_pass_random(),
@@ -23,7 +23,7 @@ class TestGetListOrder:
     @allure.title('Проверка получения списка заказов c неавторизованным конкретным пользователем')
     @allure.description(
         'Проверяем получение списка заказов, получаем статус 401 и проверяем, что список не пустой')
-    def test_get_list_order(self):
+    def test_get_list_order_401(self):
         user = {
             'email': create_email_user_random(),
             'password': create_user_pass_random(),
@@ -31,4 +31,6 @@ class TestGetListOrder:
         }
         requests.post(Data.Url_create_user, data=user)
         response = requests.get(Data.Url_orders_from_user, data=user)
-        assert response.status_code == 401
+        assert (response.status_code == 401
+                and response.json()["success"] == False
+                and response.json()["message"] == "You should be authorised")

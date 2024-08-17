@@ -11,7 +11,7 @@ class Data:
 class DataMy:
 
     name = 'Ксения'
-    email = "zavalishina--kseniia@ya.ru"
+    email = "zavalishina--kseniia1@ya.ru"
     password = 'meow1meoW2'
     incorrect_password = 'regsgq3F4t'
     incorrect_login = 'ehshariktikakiyabilnatsepi@ya.ru'
@@ -19,5 +19,6 @@ class DataMy:
 
 class BurgerIngredients:
     burger_existing = {'ingredients': ['61c0c5a71d1f82001bdaaa6d', '61c0c5a71d1f82001bdaaa6f']}
+    burger_existing_check = "Бессмертный флюоресцентный бургер"
     non_existent_burger = {'ingredients': ['35c0c5d1fр82001bdaaa6d', '61c0c5a71d1f82001bdaaa6f']}
     burger_empty = {'ingredients': ''}

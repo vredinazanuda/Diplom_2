@@ -13,8 +13,11 @@ class TestLoginUser:
                    'password': DataMy.password,
                    'name': DataMy.name
                    }
-        response = requests.get(Data.Url_login_user, data=payload)
-        assert response.status_code == 200
+        response = requests.post(Data.Url_login_user, data=payload)
+        del payload["password"]
+        assert (response.status_code == 200
+                and response.json()["success"] == True
+                and response.json()["user"] == payload)
 
     @allure.title('Проверка логина c неправильным логином')
     @allure.description(
@@ -25,7 +28,9 @@ class TestLoginUser:
                    'name': create_user_name_random()
                    }
         response = requests.post(Data.Url_login_user, data=payload)
-        assert response.status_code == 401
+        assert (response.status_code == 401
+                and response.json()["success"] == False
+                and response.json()["message"] == "email or password are incorrect")
 
     @allure.title('Проверка логина c неправильным паролем')
     @allure.description(
@@ -36,4 +41,6 @@ class TestLoginUser:
                    'name': create_user_name_random()
                    }
         response = requests.post(Data.Url_login_user, data=payload)
-        assert response.status_code == 401
+        assert (response.status_code == 401
+                and response.json()["success"] == False
+                and response.json()["message"] == "email or password are incorrect")

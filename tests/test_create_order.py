@@ -15,7 +15,9 @@ class TestCreateOrder:
                 }
         requests.post(Data.Url_login_user, data=user)
         response = requests.post(Data.Url_create_order, data=BurgerIngredients.burger_existing)
-        assert response.status_code == 200
+        assert (response.status_code == 200
+                and response.json()["success"] == True
+                and response.json()["name"] == BurgerIngredients.burger_existing_check)
 
     @allure.title('Проверка создания заказа с ингредиентами  неавторизованным пользователем')
     @allure.description('При создании заказа передаются существующие ингредиенты неавторизованным пользователем')
@@ -26,7 +28,9 @@ class TestCreateOrder:
                 }
         requests.post(Data.Url_login_user, data=user)
         response = requests.post(Data.Url_create_order, data=BurgerIngredients.burger_existing)
-        assert response.status_code == 200
+        assert (response.status_code == 200
+                and response.json()["success"] == True
+                and response.json()["name"] == BurgerIngredients.burger_existing_check)
 
     @allure.title('Проверка создания заказа без ингредиентов')
     @allure.description('При создании заказа не передаются ингредиенты ')
@@ -37,7 +41,9 @@ class TestCreateOrder:
                 }
         requests.post(Data.Url_login_user, data=user)
         response = requests.post(Data.Url_create_order, data=BurgerIngredients.burger_empty)
-        assert response.status_code == 400
+        assert (response.status_code == 400
+                and response.json()["success"] == False
+                and response.json()["message"] == "Ingredient ids must be provided")
 
     @allure.title('Проверка создания заказа с неверным хешем ингредиентов авторизованным пользователем')
     @allure.description('При создании заказа авторизованным  пользователем не передаются ингредиенты с неверным хешем')
@@ -48,4 +54,4 @@ class TestCreateOrder:
                 }
         requests.post(Data.Url_login_user, data=user)
         response = requests.post(Data.Url_create_order, data=BurgerIngredients.non_existent_burger)
-        assert response.status_code == 500
+        assert response.status_code == 500 and "Internal Server Error" in response.text

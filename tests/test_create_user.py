@@ -14,7 +14,10 @@ class TestNewUserCreate:
                    'name': create_user_name_random()
                    }
         response = requests.post(Data.Url_create_user, data=payload)
-        assert response.status_code == 200
+        del payload["password"]
+        assert (response.status_code == 200
+                and response.json()["success"] == True
+                and response.json()["user"] == payload)
 
     @allure.title('Проверка создания пользователя, который уже зарегистрирован')
     @allure.description('Создаём пользователя и проверяем, что код ответа равен 403 и тело ответа соотвествует '
@@ -25,16 +28,10 @@ class TestNewUserCreate:
                    'name': create_user_name_random()
                    }
         response = requests.post(Data.Url_create_user, data=payload)
-        assert response.status_code == 403
-
-    @allure.title('Проверка невозможности создания пользователя без одного обязательного поля')
-    @allure.description('Посылаем запрос без поля "Email" и пытаемся создать аккаунт, получаем ошибку 403 и её текст')
-    def test_not_once_required_field(self):
-        payload = {'password': create_user_pass_random(),
-                   'name': create_user_name_random()
-                   }
-        response = requests.post(Data.Url_create_user, data=payload)
-        assert response.status_code == 403
+        print(response.text)
+        assert (response.status_code == 403
+                and response.json()["success"] == False
+                and response.json()["message"] == "User already exists")
 
 
     @allure.title('Проверка невозможности создания пользователя без одного обязательного поля')
@@ -44,4 +41,6 @@ class TestNewUserCreate:
                    'name': create_user_name_random()
                    }
         response = requests.post(Data.Url_create_user, data=payload)
-        assert response.status_code == 403
+        assert (response.status_code == 403
+                and response.json()["success"] == False
+                and response.json()["message"] == "Email, password and name are required fields")
