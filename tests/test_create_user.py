@@ -28,7 +28,6 @@ class TestNewUserCreate:
                    'name': create_user_name_random()
                    }
         response = requests.post(Data.Url_create_user, data=payload)
-        print(response.text)
         assert (response.status_code == 403
                 and response.json()["success"] == False
                 and response.json()["message"] == "User already exists")
